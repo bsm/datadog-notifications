@@ -25,6 +25,10 @@ Configure it in an initializer:
 
 For full configuration options, please see the [Documentation](http://www.rubydoc.info/gems/datadog-notifications).
 
+## Plugins
+
+For a list of bundled plugins, please visit the [repository](https://github.com/bsm/datadog-notifications/tree/master/lib/datadog/notifications/plugins) page.
+
 ## Contributing
 
 1. Fork it
