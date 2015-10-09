@@ -1,7 +1,7 @@
 module Datadog
   class Notifications
     class Config
-      attr_accessor :hostname, :namespace, :tags, :statsd_host, :statsd_port, :reporter
+      attr_accessor :hostname, :namespace, :tags, :statsd_host, :statsd_port, :reporter, :plugins
 
       def initialize
         @hostname    = ENV['INSTRUMENTATION_HOSTNAME'] || Socket.gethostname
@@ -14,14 +14,10 @@ module Datadog
 
       # Use a plugin
       def use(klass, opts = {})
-        @plugins.push [klass, opts]
+        @plugins.push klass.new(opts)
       end
 
       def connect!
-        @plugins.each do |klass, opts|
-          klass.new(opts)
-        end
-
         env = ENV['RACK_ENV'] || ENV['RAILS_ENV']
         tags.push("env:#{env}")       if env && tags.none? {|t| t =~ /^env\:/ }
         tags.push("host:#{hostname}") if tags.none? {|t| t =~ /^host\:/ }
