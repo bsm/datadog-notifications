@@ -12,4 +12,10 @@ describe Datadog::Notifications::Config do
     expect(subject.tags).to eq(["custom:tag", "env:test", "host:test.host"])
   end
 
+  it 'should instantiate plugins on use' do
+    subject.use Datadog::Notifications::Plugins::ActionController
+    expect(subject.plugins.size).to eq(1)
+    expect(subject.plugins.first).to be_instance_of(Datadog::Notifications::Plugins::ActionController)
+  end
+
 end
