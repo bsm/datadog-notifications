@@ -25,10 +25,11 @@ module Datadog::Notifications::Plugins
       version  = route.route_version
       method   = route.route_method
 
-      path = route.route_path
-      path.sub!("(.:format)", "")
+      path = route.route_path.dup
+      path.sub!(/\(\.\:format\)$/, '')
       path.sub!(":version/", "") if version
-      path.gsub!(/\(?:(\w+)\)?/) {|m| "_#{m[1..-1]}_" }
+      path.gsub!(/:(\w+)/) {|m| m[1..-1].upcase }
+      path.gsub!(/[^\w\/\-]+/, '_')
 
       tags = self.tags + %W|method:#{method} path:#{path} status:#{endpoint.status}|
       tags.push "version:#{version}" if version

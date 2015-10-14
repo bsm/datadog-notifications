@@ -32,13 +32,13 @@ describe Datadog::Notifications::Plugins::Grape do
     expect(last_response.body).to eq('1 1234')
 
     expect(buffered).to eq([
-      "api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/echo/_key1_/_key2_,status:200",
-      "api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/echo/_key1_/_key2_,status:200",
+      "api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/echo/KEY1/KEY2,status:200",
+      "api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/echo/KEY1/KEY2,status:200",
     ])
   end
 
   it 'should support namespaces and versioning' do
-    get '/api/v1/sub/versioned'
+    get '/api/v1/sub/versioned.txt'
     expect(last_response.status).to eq(200)
     expect(last_response.body).to eq('OK')
 
