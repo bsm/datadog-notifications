@@ -22,10 +22,10 @@ module Datadog::Notifications::Plugins
       payload  = event.payload
       endpoint = payload[:endpoint]
       route    = endpoint.route
-      version  = route.route_version
-      method   = route.route_method
+      version  = route.version
+      method   = route.request_method
 
-      path = route.route_path.dup
+      path = route.pattern.path.dup
       path.sub!(/\(\.\:format\)$/, '')
       path.sub!(":version/", "") if version
       path.gsub!(/:(\w+)/) {|m| m[1..-1].upcase }
