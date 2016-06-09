@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<dogstatsd-ruby>)
 
   s.add_development_dependency(%q<rack-test>)
-  s.add_development_dependency(%q<grape>)
+  s.add_development_dependency(%q<grape>, ">= 0.16")
   s.add_development_dependency(%q<sqlite3>)
   s.add_development_dependency(%q<activerecord>)
   s.add_development_dependency(%q<rake>)
