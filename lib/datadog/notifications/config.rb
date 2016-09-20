@@ -18,7 +18,7 @@ module Datadog
       end
 
       def connect!
-        env = ENV['RACK_ENV'] || ENV['RAILS_ENV']
+        env = ENV['RAILS_ENV'] || ENV['RACK_ENV']
         tags.push("env:#{env}")       if env && tags.none? {|t| t =~ /^env\:/ }
         tags.push("host:#{hostname}") if tags.none? {|t| t =~ /^host\:/ }
 
