@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    datadog-notifications (0.4.2)
+    datadog-notifications (0.4.3)
       activesupport
-      dogstatsd-ruby
+      dogstatsd-ruby (~> 2.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -31,7 +31,7 @@ GEM
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
-    dogstatsd-ruby (1.6.0)
+    dogstatsd-ruby (2.0.0)
     enumerable-lazy (0.0.1)
     equalizer (0.0.11)
     grape (0.17.0)
@@ -47,7 +47,7 @@ GEM
     hashie (3.4.6)
     i18n (0.7.0)
     ice_nine (0.11.2)
-    minitest (5.9.0)
+    minitest (5.9.1)
     multi_json (1.12.1)
     multi_xml (0.5.5)
     mustermann19 (0.4.4)

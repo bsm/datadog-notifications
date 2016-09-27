@@ -1,4 +1,4 @@
-require 'statsd'
+require 'datadog/statsd'
 require 'socket'
 require 'singleton'
 require 'active_support/notifications'
