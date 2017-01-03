@@ -30,8 +30,8 @@ module Datadog::Notifications::Plugins
       reporter.batch do
         reporter.increment metric_name, tags: tags
         reporter.timing "#{metric_name}.time", event.duration, tags: tags
-        reporter.timing "#{metric_name}.time.db", to_millis(payload[:db_runtime]), tags: tags
-        reporter.timing "#{metric_name}.time.view", to_millis(payload[:view_runtime]), tags: tags
+        reporter.timing "#{metric_name}.time.db", payload[:db_runtime], tags: tags
+        reporter.timing "#{metric_name}.time.view", payload[:view_runtime], tags: tags
       end
     end
 
