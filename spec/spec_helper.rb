@@ -62,5 +62,8 @@ Datadog::Notifications.configure do |c|
   c.tags     = ["custom:tag"]
 
   c.use Datadog::Notifications::Plugins::ActiveRecord
-  c.use Datadog::Notifications::Plugins::Grape, tags: ["more:tags"], metric_name: "api.request"
+  c.use Datadog::Notifications::Plugins::Grape,
+    tags: ["more:tags"],
+    metric_name: "api.request",
+    exception_handler: ->e { e.message.include?("unauthorized") ? 401 : 500 }
 end

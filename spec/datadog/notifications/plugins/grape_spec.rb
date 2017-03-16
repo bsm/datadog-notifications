@@ -4,6 +4,8 @@ describe Datadog::Notifications::Plugins::Grape do
   include Rack::Test::Methods
 
   let(:app) do
+    unauthorized = Class.new(RuntimeError)
+
     sub_api = Class.new(Grape::API) do
       version 'v1'
       prefix  'api'
@@ -12,8 +14,17 @@ describe Datadog::Notifications::Plugins::Grape do
     end
 
     Class.new(Grape::API) do
+
+      rescue_from unauthorized do |e|
+        error!({ message: "unauthorized", error: '401 Unauthorized' }, 401)
+      end
+
       get 'echo/:key1/:key2' do
         "#{params['key1']} #{params['key2']}"
+      end
+
+      get '/rescued' do
+        raise unauthorized.new("unauthorized")
       end
 
       namespace :sub do
@@ -57,6 +68,23 @@ describe Datadog::Notifications::Plugins::Grape do
       "api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/sub/secure/resource,status:403",
       "api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/sub/secure/resource,status:403",
     ])
+  end
+
+  it 'should handle rescued errors' do
+    get '/rescued'
+    expect(last_response.status).to eq(401)
+
+    expect(buffered).to eq([
+      "api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/rescued,status:401",
+      "api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/rescued,status:401",
+    ])
+  end
+
+  it 'should not report paths on 404s' do
+    get '/sub/missing'
+    expect(last_response.status).to eq(404)
+
+    expect(buffered).to eq([])
   end
 
 end
