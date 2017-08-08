@@ -4,7 +4,7 @@ module Datadog
       attr_accessor :hostname, :namespace, :tags, :statsd_host, :statsd_port, :reporter, :plugins
 
       def initialize
-        @hostname    = ENV['INSTRUMENTATION_HOSTNAME']
+        @hostname    = ENV['INSTRUMENTATION_HOSTNAME'] || Socket.gethostname
         @statsd_host = ENV['STATSD_HOST'] || ::Datadog::Statsd::DEFAULT_HOST
         @statsd_port = (ENV['STATSD_PORT'] || ::Datadog::Statsd::DEFAULT_PORT).to_i
         @reporter    = Datadog::Notifications::Reporter
