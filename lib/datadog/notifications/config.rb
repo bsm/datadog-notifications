@@ -20,7 +20,7 @@ module Datadog
       def connect!
         env = ENV['RAILS_ENV'] || ENV['RACK_ENV']
         tags.push("env:#{env}")       if env && tags.none? {|t| t =~ /^env\:/ }
-        tags.push("host:#{hostname}") if tags.none? {|t| t =~ /^host\:/ }
+        tags.push("host:#{hostname}") if tags.none? {|t| t =~ /^host\:/ } && hostname
 
         reporter.new statsd_host, statsd_port, namespace: namespace, tags: tags
       end
