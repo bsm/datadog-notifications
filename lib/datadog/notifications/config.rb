@@ -1,12 +1,13 @@
 module Datadog
   class Notifications
     class Config
-      attr_accessor :hostname, :namespace, :tags, :statsd_host, :statsd_port, :reporter, :plugins
+      attr_accessor :hostname, :namespace, :tags, :statsd_host, :statsd_port, :reporter, :plugins, :socket_path
 
       def initialize
         @hostname    = ENV['INSTRUMENTATION_HOSTNAME'] || Socket.gethostname
         @statsd_host = ENV['STATSD_HOST'] || ::Datadog::Statsd::DEFAULT_HOST
         @statsd_port = (ENV['STATSD_PORT'] || ::Datadog::Statsd::DEFAULT_PORT).to_i
+        @socket_path = ENV['SOCKET_PATH']
         @reporter    = Datadog::Notifications::Reporter
         @tags        = []
         @plugins     = []
@@ -24,7 +25,7 @@ module Datadog
         enable_hostname = hostname && hostname != 'false'
         tags.push("host:#{hostname}") if enable_hostname && tags.none? {|t| t =~ /^host\:/ }
 
-        reporter.new statsd_host, statsd_port, namespace: namespace, tags: tags
+        reporter.new statsd_host, statsd_port, namespace: namespace, tags: tags, socket_path: socket_path
       end
       protected :connect!
 
