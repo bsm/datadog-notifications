@@ -15,7 +15,7 @@ describe Datadog::Notifications::Plugins::Grape do
 
     Class.new(Grape::API) do
 
-      rescue_from unauthorized do |e|
+      rescue_from unauthorized do |_e|
         error!({ message: "unauthorized", error: '401 Unauthorized' }, 401)
       end
 
@@ -24,7 +24,7 @@ describe Datadog::Notifications::Plugins::Grape do
       end
 
       get '/rescued' do
-        raise unauthorized.new("unauthorized")
+        raise unauthorized, "unauthorized"
       end
 
       namespace :sub do
@@ -43,9 +43,9 @@ describe Datadog::Notifications::Plugins::Grape do
     expect(last_response.body).to eq('1 1234')
 
     expect(buffered).to eq([
-      "api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/echo/KEY1/KEY2,status:200",
-      "api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/echo/KEY1/KEY2,status:200",
-    ])
+      "api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:200,path:/echo/KEY1/KEY2",
+      "api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:200,path:/echo/KEY1/KEY2",
+    ],)
   end
 
   it 'should support namespaces and versioning' do
@@ -54,9 +54,9 @@ describe Datadog::Notifications::Plugins::Grape do
     expect(last_response.body).to eq('OK')
 
     expect(buffered).to eq([
-      "api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/api/sub/versioned,status:200,version:v1",
-      "api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/api/sub/versioned,status:200,version:v1",
-    ])
+      "api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:200,path:/api/sub/versioned,version:v1",
+      "api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:200,path:/api/sub/versioned,version:v1",
+    ],)
   end
 
   it 'should support deep nesting' do
@@ -65,9 +65,9 @@ describe Datadog::Notifications::Plugins::Grape do
     expect(last_response.body).to eq('forbidden')
 
     expect(buffered).to eq([
-      "api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/sub/secure/resource,status:403",
-      "api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/sub/secure/resource,status:403",
-    ])
+      "api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:403,path:/sub/secure/resource",
+      "api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:403,path:/sub/secure/resource",
+    ],)
   end
 
   it 'should handle rescued errors' do
@@ -75,9 +75,19 @@ describe Datadog::Notifications::Plugins::Grape do
     expect(last_response.status).to eq(401)
 
     expect(buffered).to eq([
-      "api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/rescued,status:401",
-      "api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,path:/rescued,status:401",
-    ])
+      "api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:401,path:/rescued",
+      "api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:401,path:/rescued",
+    ],)
+  end
+
+  it 'should handle invalid method' do
+    post '/rescued'
+
+    expect(last_response.status).to eq(405)
+    expect(buffered).to eq([
+      "api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:POST,status:405,path:/rescued",
+      "api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:POST,status:405,path:/rescued",
+    ],)
   end
 
   it 'should not report paths on 404s' do

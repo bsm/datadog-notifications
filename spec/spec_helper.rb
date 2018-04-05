@@ -22,13 +22,16 @@ end
 
 module Mock
   class Reporter < Datadog::Notifications::Reporter
-    def timing(stat, ms, opts={}); super(stat, 333, opts); end
+    def timing(stat, _ms, opts={})
+      super(stat, 333, opts)
+    end
+
     def flush_buffer; end
     @should_batch = true
   end
 
   class Instrumentable
-    def initialize(opts = {})
+    def initialize(opts={})
       @opts = opts
     end
 
@@ -65,5 +68,11 @@ Datadog::Notifications.configure do |c|
   c.use Datadog::Notifications::Plugins::Grape,
     tags: ["more:tags"],
     metric_name: "api.request",
-    exception_handler: ->e { e.message.include?("unauthorized") ? 401 : 500 }
+    exception_handler: lambda {|e|
+      if e.message.include?('unauthorized')
+        401
+      else
+        Datadog::Notifications::Plugins::Grape.exception_status(e)
+      end
+    }
 end

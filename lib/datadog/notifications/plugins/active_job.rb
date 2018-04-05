@@ -7,7 +7,7 @@ module Datadog::Notifications::Plugins
     #
     # *<tt>:metric_name</tt> - the metric name, defaults to "activejob.perform"
     # *<tt>:tags</tt>        - additional tags
-    def initialize(opts = {})
+    def initialize(opts={})
       super
       @metric_name = opts[:metric_name] || "activejob.perform"
 
@@ -21,7 +21,7 @@ module Datadog::Notifications::Plugins
     def record(reporter, event)
       job  = event.payload[:job]
       name = job.class.name.sub(/Job$/, '').underscore
-      tags = self.tags + %W|job:#{name} queue:#{job.queue_name}|
+      tags = self.tags + %W[job:#{name} queue:#{job.queue_name}]
 
       reporter.batch do
         reporter.increment metric_name, tags: tags

@@ -7,7 +7,7 @@ module Datadog::Notifications::Plugins
     #
     # *<tt>:metric_name</tt> - the metric name, defaults to "rails.request"
     # *<tt>:tags</tt> - additional tags
-    def initialize(opts = {})
+    def initialize(opts={})
       super
       @metric_name = opts[:metric_name] || "rails.request"
 
@@ -25,7 +25,7 @@ module Datadog::Notifications::Plugins
       action  = payload[:action]
       ctrl    = payload[:controller].sub(/Controller$/, '').underscore
       format  = payload[:format]
-      tags    = self.tags + %W|method:#{method} status:#{status} action:#{action} controller:#{ctrl} format:#{format}|
+      tags    = self.tags + %W[method:#{method} status:#{status} action:#{action} controller:#{ctrl} format:#{format}]
 
       reporter.batch do
         reporter.increment metric_name, tags: tags

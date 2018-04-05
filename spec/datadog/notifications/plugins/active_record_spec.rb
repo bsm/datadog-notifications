@@ -7,7 +7,7 @@ describe Datadog::Notifications::Plugins::ActiveRecord do
     expect(buffered).to eq([
       "activerecord.sql:1|c|#custom:tag,env:test,host:test.host,query:post.load",
       "activerecord.sql.time:333|ms|#custom:tag,env:test,host:test.host,query:post.load",
-    ])
+    ],)
   end
 
   it 'should skip unnamed by default' do
@@ -20,7 +20,7 @@ describe Datadog::Notifications::Plugins::ActiveRecord do
     expect(buffered).to eq([
       "activerecord.sql:1|c|#custom:tag,env:test,host:test.host,query:post.load",
       "activerecord.sql.time:333|ms|#custom:tag,env:test,host:test.host,query:post.load",
-    ])
+    ],)
   end
 
 end

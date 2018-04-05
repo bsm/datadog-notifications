@@ -9,7 +9,7 @@ module Datadog::Notifications::Plugins
     # *<tt>:include_schema</tt>   - record schema queries, off by default
     # *<tt>:include_generic</tt>  - record general (nameless) queries, off by default
     # *<tt>:tags</tt>             - additional tags
-    def initialize(opts = {})
+    def initialize(opts={})
       super
       @metric_name     = opts[:metric_name] || "activerecord.sql"
       @include_schema  = opts[:include_schema] == true

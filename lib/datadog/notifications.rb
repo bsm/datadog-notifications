@@ -31,7 +31,7 @@ module Datadog
     # * <tt>reporter</tt>     - custom reporter class, defaults to `Datadog::Notifications::Reporter`
     def self.configure(&block)
       if instance.instance_variable_defined?(:@reporter)
-        warn "#{self.name} cannot be reconfigured once it has subscribed to notifications, called from: #{caller[1]}"
+        warn "#{name} cannot be reconfigured once it has subscribed to notifications, called from: #{caller(2..2).first}"
         return
       end
       block.call instance.config if block
@@ -62,9 +62,9 @@ module Datadog
       @config = Config.new
     end
 
-    def subscribe(pattern, &block)
+    def subscribe(pattern)
       ActiveSupport::Notifications.subscribe(pattern) do |*args|
-        block.call reporter, ActiveSupport::Notifications::Event.new(*args)
+        yield reporter, ActiveSupport::Notifications::Event.new(*args)
       end
     end
 

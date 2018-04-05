@@ -5,7 +5,7 @@ module Datadog::Notifications::Plugins
     # Options:
     #
     # *<tt>:tags</tt> - additional tags
-    def initialize(opts = {})
+    def initialize(opts={})
       @tags = opts[:tags] || []
     end
 

@@ -14,7 +14,7 @@ module Datadog
       end
 
       # Use a plugin
-      def use(klass, opts = {})
+      def use(klass, opts={})
         @plugins.push klass.new(opts)
       end
 
