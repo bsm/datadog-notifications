@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version       = Datadog::Notifications::VERSION.dup
   s.authors       = ["Dimitrij Denissenko"]
   s.email         = ["dimitrij@blacksquaremedia.com"]
-  s.description   = 'Datadog instrumnetation for ActiveSupport::Notifications'
+  s.description   = 'Datadog instrumentation for ActiveSupport::Notifications'
   s.summary       = 'Generic ActiveSupport::Notifications Datadog handler'
   s.homepage      = "https://github.com/bsm/datadog-notifications"
 
