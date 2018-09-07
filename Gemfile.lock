@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    datadog-notifications (0.5.1)
+    datadog-notifications (0.6.0)
       activesupport
       dogstatsd-ruby (~> 3.1)
 
@@ -106,4 +106,4 @@ DEPENDENCIES
   sqlite3
 
 BUNDLED WITH
-   1.16.1
+   1.16.3

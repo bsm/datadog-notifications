@@ -5,6 +5,6 @@ module Datadog
   end
 end
 
-%w[base grape active_record active_job action_controller].each do |name|
+%w[base grape active_record active_job action_controller grpc].each do |name|
   require "datadog/notifications/plugins/#{name}"
 end
