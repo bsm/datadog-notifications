@@ -29,8 +29,8 @@ module Datadog::Notifications::Plugins
       tags = self.tags + %W[action:#{action} status:#{status}]
 
       reporter.batch do
-        reporter.increment metric_name, tags: tags
-        reporter.timing "#{metric_name}.time", event.duration, tags: tags
+        reporter.increment @metric_name, tags: tags
+        reporter.timing "#{@metric_name}.time", event.duration, tags: tags
       end
     end
 
