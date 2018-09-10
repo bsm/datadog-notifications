@@ -7,9 +7,9 @@ module Datadog::Notifications::Plugins
     # *<tt>:tags</tt> - additional tags
     #
     # It expects ActiveSupport instrumented notifications named 'process_action.grpc'.
-    # Each such notification should have an :action key with gRPC action (method) name.
+    # Notification payload should have :service (service name, string) and :action (service action/method name, string) keys.
     #
-    # Compatible instrumentation is implemented in grpcx gem: https://github.com/bsm/grpcx
+    # Compatible instrumentation is implemented in grpcx gem: https://github.com/bsm/grpcx (>= 0.2.0)
     def initialize(opts={})
       super
       @metric_name = opts[:metric_name] || 'grpc.request'
@@ -23,10 +23,11 @@ module Datadog::Notifications::Plugins
 
     def record(reporter, event)
       payload = event.payload
+      service = payload[:service]
       action  = payload[:action]
       status  = payload[:exception] ? 'error' : 'ok'
 
-      tags = self.tags + %W[action:#{action} status:#{status}]
+      tags = self.tags + %W[service:#{service} action:#{action} status:#{status}]
 
       reporter.batch do
         reporter.increment @metric_name, tags: tags
