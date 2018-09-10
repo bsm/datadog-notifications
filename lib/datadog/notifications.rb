@@ -68,10 +68,10 @@ module Datadog
       end
     end
 
+    private
+
     def reporter
       @reporter ||= config.send(:connect!)
     end
-    private :reporter
-
   end
 end

@@ -1,6 +1,7 @@
 Naming/FileName:
   Exclude:
     - "lib/datadog-notifications.rb"
+    - "datadog-notifications.gemspec"
 
 Metrics/AbcSize:
   Enabled: false

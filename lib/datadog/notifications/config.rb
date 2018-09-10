@@ -18,6 +18,8 @@ module Datadog
         @plugins.push klass.new(opts)
       end
 
+      protected
+
       def connect!
         env = ENV['RAILS_ENV'] || ENV['RACK_ENV']
         tags.push("env:#{env}")       if env && tags.none? {|t| t =~ /^env\:/ }
@@ -27,7 +29,6 @@ module Datadog
 
         reporter.new statsd_host, statsd_port, namespace: namespace, tags: tags, socket_path: socket_path
       end
-      protected :connect!
 
     end
   end
