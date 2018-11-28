@@ -10,7 +10,7 @@ require 'sqlite3'
 
 ### Active-record test preparation
 
-ActiveRecord::Base.configurations["test"] = { 'adapter' => 'sqlite3', 'database' => ':memory:' }
+ActiveRecord::Base.configurations['test'] = { 'adapter' => 'sqlite3', 'database' => ':memory:' }
 ActiveRecord::Base.establish_connection(:test)
 ActiveRecord::Base.connection.create_table :posts do |t|
   t.string :title
@@ -36,8 +36,8 @@ module Mock
     end
 
     def perform
-      ActiveSupport::Notifications.instrument("mock.start", @opts)
-      ActiveSupport::Notifications.instrument("mock.perform", @opts) do |payload|
+      ActiveSupport::Notifications.instrument('mock.start', @opts)
+      ActiveSupport::Notifications.instrument('mock.perform', @opts) do |payload|
         payload[:status] = 200
       end
     end
@@ -60,14 +60,14 @@ RSpec.configure do |c|
 end
 
 Datadog::Notifications.configure do |c|
-  c.hostname = "test.host"
+  c.hostname = 'test.host'
   c.reporter = Mock::Reporter
-  c.tags     = ["custom:tag"]
+  c.tags     = ['custom:tag']
 
   c.use Datadog::Notifications::Plugins::ActiveRecord
   c.use Datadog::Notifications::Plugins::Grape,
-    tags: ["more:tags"],
-    metric_name: "api.request",
+    tags: ['more:tags'],
+    metric_name: 'api.request',
     exception_handler: lambda {|e|
       if e.message.include?('unauthorized')
         401

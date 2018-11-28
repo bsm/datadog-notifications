@@ -1,1 +1,1 @@
-require "datadog/notifications"
+require 'datadog/notifications'

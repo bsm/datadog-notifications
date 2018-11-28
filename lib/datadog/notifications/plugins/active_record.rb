@@ -11,7 +11,7 @@ module Datadog::Notifications::Plugins
     # *<tt>:tags</tt>             - additional tags
     def initialize(opts={})
       super
-      @metric_name     = opts[:metric_name] || "activerecord.sql"
+      @metric_name     = opts[:metric_name] || 'activerecord.sql'
       @include_schema  = opts[:include_schema] == true
       @include_generic = opts[:include_generic] == true
       @include_raw     = opts[:include_raw] == true
@@ -26,10 +26,10 @@ module Datadog::Notifications::Plugins
     def record(reporter, event)
       payload = event.payload
       name    = payload[:name]
-      return if (name.nil? || name == "SQL") && !@include_generic
-      return if name == "SCHEMA" && !@include_schema
+      return if (name.nil? || name == 'SQL') && !@include_generic
+      return if name == 'SCHEMA' && !@include_schema
 
-      name = name.downcase.split(/\W/).join(".") if name
+      name = name.downcase.split(/\W/).join('.') if name
       tags = self.tags.dup
       tags.push "query:#{name}" if name
 

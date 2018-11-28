@@ -9,7 +9,7 @@ module Datadog::Notifications::Plugins
     # *<tt>:tags</tt>        - additional tags
     def initialize(opts={})
       super
-      @metric_name = opts[:metric_name] || "activejob.perform"
+      @metric_name = opts[:metric_name] || 'activejob.perform'
 
       Datadog::Notifications.subscribe 'perform.active_job' do |reporter, event|
         record reporter, event

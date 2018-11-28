@@ -1,0 +1,9 @@
+build
+clean
+clobber
+install
+install:local
+release[remote]
+rubocop
+rubocop:auto_correct
+spec

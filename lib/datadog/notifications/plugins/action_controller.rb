@@ -9,7 +9,7 @@ module Datadog::Notifications::Plugins
     # *<tt>:tags</tt> - additional tags
     def initialize(opts={})
       super
-      @metric_name = opts[:metric_name] || "rails.request"
+      @metric_name = opts[:metric_name] || 'rails.request'
 
       Datadog::Notifications.subscribe 'process_action.action_controller' do |reporter, event|
         record reporter, event

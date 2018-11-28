@@ -14,7 +14,7 @@ module Datadog::Notifications::Plugins
     # *<tt>:tags</tt> - additional tags
     def initialize(opts={})
       super
-      @metric_name = opts[:metric_name] || "grape.request"
+      @metric_name = opts[:metric_name] || 'grape.request'
       @exception_handler = opts[:exception_handler] || ->(e) { self.class.exception_status(e) }
 
       Datadog::Notifications.subscribe 'endpoint_run.grape' do |reporter, event|
@@ -55,7 +55,7 @@ module Datadog::Notifications::Plugins
 
       path = endpoint.route.path.dup
       path.sub!(/\(\.\:format\)$/, '')
-      path.sub!(":version/", "") if endpoint.version
+      path.sub!(':version/', '') if endpoint.version
       path.gsub!(/:(\w+)/) {|m| m[1..-1].upcase }
       path
     end
