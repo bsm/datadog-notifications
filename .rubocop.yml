@@ -1,6 +1,9 @@
 inherit_from:
   - https://bitbucket.org/bsm/misc/raw/master/rubocop/default.yml
 
+AllCops:
+  TargetRubyVersion: "2.3"
+
 Naming/FileName:
   Exclude:
     - "lib/datadog-notifications.rb"
