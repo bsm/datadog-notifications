@@ -26,8 +26,13 @@ module Mock
       super(stat, 333, opts)
     end
 
-    def flush_buffer; end
-    @should_batch = true
+    def send_stat(message)
+      messages.push message
+    end
+
+    def messages
+      @messages ||= []
+    end
   end
 
   class Instrumentable
@@ -49,7 +54,7 @@ end
 RSpec.configure do |c|
   helpers = Module.new do
     def buffered
-      Datadog::Notifications.instance.send(:reporter).buffer
+      Datadog::Notifications.instance.send(:reporter).messages
     end
   end
 

@@ -5,8 +5,8 @@ module Datadog
 
       def initialize
         @hostname    = ENV['INSTRUMENTATION_HOSTNAME'] || Socket.gethostname
-        @statsd_host = ENV['STATSD_HOST'] || ::Datadog::Statsd::DEFAULT_HOST
-        @statsd_port = (ENV['STATSD_PORT'] || ::Datadog::Statsd::DEFAULT_PORT).to_i
+        @statsd_host = ENV['STATSD_HOST'] || ::Datadog::Statsd::Connection::DEFAULT_HOST
+        @statsd_port = (ENV['STATSD_PORT'] || ::Datadog::Statsd::Connection::DEFAULT_PORT).to_i
         @socket_path = ENV['SOCKET_PATH']
         @reporter    = Datadog::Notifications::Reporter
         @tags        = []

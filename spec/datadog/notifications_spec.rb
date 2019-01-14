@@ -27,7 +27,7 @@ describe Datadog::Notifications do
     expect(buffered).to eq([
       'web.render:1|c|#custom:tag,env:test,host:test.host,status:200,method:GET',
       'web.render.time:333|ms|#custom:tag,env:test,host:test.host,status:200,method:GET',
-    ],)
+    ])
   end
 
 end
