@@ -45,7 +45,7 @@ describe Datadog::Notifications::Plugins::Grape do
     expect(buffered).to eq([
       'api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:200,path:/echo/KEY1/KEY2',
       'api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:200,path:/echo/KEY1/KEY2',
-    ],)
+    ])
   end
 
   it 'should support namespaces and versioning' do
@@ -56,7 +56,7 @@ describe Datadog::Notifications::Plugins::Grape do
     expect(buffered).to eq([
       'api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:200,path:/api/sub/versioned,version:v1',
       'api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:200,path:/api/sub/versioned,version:v1',
-    ],)
+    ])
   end
 
   it 'should support deep nesting' do
@@ -67,7 +67,7 @@ describe Datadog::Notifications::Plugins::Grape do
     expect(buffered).to eq([
       'api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:403,path:/sub/secure/resource',
       'api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:403,path:/sub/secure/resource',
-    ],)
+    ])
   end
 
   it 'should handle rescued errors' do
@@ -77,7 +77,7 @@ describe Datadog::Notifications::Plugins::Grape do
     expect(buffered).to eq([
       'api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:401,path:/rescued',
       'api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:401,path:/rescued',
-    ],)
+    ])
   end
 
   it 'should handle invalid method' do
@@ -87,7 +87,7 @@ describe Datadog::Notifications::Plugins::Grape do
     expect(buffered).to eq([
       'api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:POST,status:405,path:/rescued',
       'api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:POST,status:405,path:/rescued',
-    ],)
+    ])
   end
 
   it 'should not report paths on 404s' do

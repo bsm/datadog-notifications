@@ -34,7 +34,7 @@ module Datadog
         warn "#{name} cannot be reconfigured once it has subscribed to notifications, called from: #{caller(2..2).first}"
         return
       end
-      block.call instance.config if block
+      block&.call instance.config
     end
 
     # You can subscribe to events exactly as with ActiveSupport::Notifications, but there will be an

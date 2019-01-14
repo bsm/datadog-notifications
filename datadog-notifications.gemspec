@@ -14,13 +14,14 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   s.test_files    = s.files.grep(%r{^(spec)/})
   s.require_paths = ['lib']
+  s.required_ruby_version = '>= 2.3'
 
   s.add_runtime_dependency('activesupport')
-  s.add_runtime_dependency('dogstatsd-ruby', '~> 3.1')
+  s.add_runtime_dependency('dogstatsd-ruby', '~> 4.0')
 
   s.add_development_dependency('activerecord')
   s.add_development_dependency('bundler')
-  s.add_development_dependency('grape', '>= 0.16')
+  s.add_development_dependency('grape', '>= 1.0.2')
   s.add_development_dependency('rack-test')
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec')
