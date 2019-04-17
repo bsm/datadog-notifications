@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    datadog-notifications (0.6.0)
+    datadog-notifications (0.6.1)
       activesupport
-      dogstatsd-ruby (~> 4.0)
+      dogstatsd-ruby (>= 4.2, < 5.0)
 
 GEM
   remote: https://rubygems.org/
