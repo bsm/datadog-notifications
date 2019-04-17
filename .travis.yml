@@ -1,6 +1,6 @@
 cache: bundler
 language: ruby
-install:
+before_install:
   - gem install bundler
 rvm:
   - 2.6
