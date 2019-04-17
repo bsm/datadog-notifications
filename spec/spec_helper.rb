@@ -22,7 +22,7 @@ end
 
 module Mock
   class Reporter < Datadog::Notifications::Reporter
-    def timing(stat, _ms, opts={})
+    def timing(stat, _millis, opts={})
       super(stat, 333, opts)
     end
 
