@@ -10,7 +10,7 @@ require 'sqlite3'
 
 ### Active-record test preparation
 
-ActiveRecord::Base.configurations['test'] = { 'adapter' => 'sqlite3', 'database' => ':memory:' }
+ActiveRecord::Base.configurations = { 'test' => { 'adapter' => 'sqlite3', 'database' => ':memory:' } }
 ActiveRecord::Base.establish_connection(:test)
 ActiveRecord::Base.connection.create_table :posts do |t|
   t.string :title
