@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    datadog-notifications (0.6.1)
+    datadog-notifications (0.6.2)
       activesupport
       dogstatsd-ruby (>= 4.2, < 5.0)
 

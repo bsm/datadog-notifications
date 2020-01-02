@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   s.test_files    = s.files.grep(%r{^(spec)/})
   s.require_paths = ['lib']
-  s.required_ruby_version = '>= 2.3'
+  s.required_ruby_version = '>= 2.5'
 
   s.add_runtime_dependency 'activesupport'
   s.add_runtime_dependency 'dogstatsd-ruby', '>= 4.2', '< 5.0'
