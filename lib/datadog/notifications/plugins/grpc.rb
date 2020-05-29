@@ -1,6 +1,5 @@
 module Datadog::Notifications::Plugins
   class GRPC < Base
-
     # Options:
     #
     # *<tt>:metric_name</tt> - the metric name, defaults to 'grpc.request'
@@ -10,10 +9,10 @@ module Datadog::Notifications::Plugins
     # Notification payload should have :service (service name, string) and :action (service action/method name, string) keys.
     #
     # Compatible instrumentation is implemented in grpcx gem: https://github.com/bsm/grpcx (>= 0.2.0)
-    def initialize(opts={})
+    def initialize(metric_name: 'grpc.request', **opts)
       super
-      @metric_name = opts[:metric_name] || 'grpc.request'
 
+      @metric_name = metric_name
       Datadog::Notifications.subscribe 'process_action.grpc' do |reporter, event|
         record reporter, event
       end
@@ -34,6 +33,5 @@ module Datadog::Notifications::Plugins
         reporter.timing "#{@metric_name}.time", event.duration, tags: tags
       end
     end
-
   end
 end

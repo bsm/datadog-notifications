@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Datadog::Notifications::Plugins::ActiveRecord do
-
   it 'should send an increment and timing event for each query' do
     Post.all.to_a
     expect(buffered).to eq [
@@ -17,5 +16,4 @@ describe Datadog::Notifications::Plugins::ActiveRecord do
       'activerecord.sql.time:333|ms|#custom:tag,env:test,host:test.host,query:post.load',
     ]
   end
-
 end

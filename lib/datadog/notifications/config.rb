@@ -14,8 +14,8 @@ module Datadog
       end
 
       # Use a plugin
-      def use(klass, opts={})
-        @plugins.push klass.new(opts)
+      def use(klass, **opts)
+        @plugins.push klass.new(**opts)
       end
 
       protected
@@ -29,7 +29,6 @@ module Datadog
 
         reporter.new statsd_host, statsd_port, namespace: namespace, tags: tags, socket_path: socket_path
       end
-
     end
   end
 end

@@ -14,7 +14,6 @@ describe Datadog::Notifications::Plugins::Grape do
     end
 
     Class.new(Grape::API) do
-
       rescue_from unauthorized do |_e|
         error!({ message: 'unauthorized', error: '401 Unauthorized' }, 401)
       end
@@ -96,5 +95,4 @@ describe Datadog::Notifications::Plugins::Grape do
 
     expect(buffered).to eq([])
   end
-
 end

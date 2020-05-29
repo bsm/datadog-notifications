@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Datadog::Notifications do
-
   subject { described_class.instance }
   after   { ActiveSupport::Notifications.unsubscribe(subscription) }
 
@@ -29,5 +28,4 @@ describe Datadog::Notifications do
       'web.render.time:333|ms|#custom:tag,env:test,host:test.host,status:200,method:GET',
     ])
   end
-
 end

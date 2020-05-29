@@ -22,8 +22,8 @@ end
 
 module Mock
   class Reporter < Datadog::Notifications::Reporter
-    def timing(stat, _millis, opts={})
-      super(stat, 333, opts)
+    def timing(stat, _millis, **opts)
+      super(stat, 333, **opts)
     end
 
     def send_stat(message)
@@ -36,7 +36,7 @@ module Mock
   end
 
   class Instrumentable
-    def initialize(opts={})
+    def initialize(**opts)
       @opts = opts
     end
 
@@ -71,13 +71,13 @@ Datadog::Notifications.configure do |c|
 
   c.use Datadog::Notifications::Plugins::ActiveRecord
   c.use Datadog::Notifications::Plugins::Grape,
-    tags: ['more:tags'],
-    metric_name: 'api.request',
-    exception_handler: lambda {|e|
-      if e.message.include?('unauthorized')
-        401
-      else
-        Datadog::Notifications::Plugins::Grape.exception_status(e)
-      end
-    }
+        tags: ['more:tags'],
+        metric_name: 'api.request',
+        exception_handler: lambda {|e|
+          if e.message.include?('unauthorized')
+            401
+          else
+            Datadog::Notifications::Plugins::Grape.exception_status(e)
+          end
+        }
 end

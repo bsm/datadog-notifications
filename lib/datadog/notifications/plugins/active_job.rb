@@ -1,16 +1,15 @@
 module Datadog::Notifications::Plugins
   class ActiveJob < Base
-
     attr_reader :metric_name
 
     # Options:
     #
     # *<tt>:metric_name</tt> - the metric name, defaults to "activejob.perform"
     # *<tt>:tags</tt>        - additional tags
-    def initialize(opts={})
+    def initialize(metric_name: 'activejob.perform', **opts)
       super
-      @metric_name = opts[:metric_name] || 'activejob.perform'
 
+      @metric_name = metric_name
       Datadog::Notifications.subscribe 'perform.active_job' do |reporter, event|
         record reporter, event
       end
@@ -28,6 +27,5 @@ module Datadog::Notifications::Plugins
         reporter.timing "#{metric_name}.time", event.duration, tags: tags
       end
     end
-
   end
 end

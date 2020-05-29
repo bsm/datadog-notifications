@@ -1,6 +1,5 @@
 module Datadog::Notifications::Plugins
   class ActiveRecord < Base
-
     attr_reader :metric_name
 
     # Options:
@@ -9,9 +8,10 @@ module Datadog::Notifications::Plugins
     # *<tt>:include_schema</tt>   - record schema queries, off by default
     # *<tt>:include_generic</tt>  - record general (nameless) queries, off by default
     # *<tt>:tags</tt>             - additional tags
-    def initialize(opts={})
+    def initialize(metric_name: 'activerecord.sql', **opts)
       super
-      @metric_name     = opts[:metric_name] || 'activerecord.sql'
+
+      @metric_name     = metric_name
       @include_schema  = opts[:include_schema] == true
       @include_generic = opts[:include_generic] == true
       @include_raw     = opts[:include_raw] == true
@@ -38,6 +38,5 @@ module Datadog::Notifications::Plugins
         reporter.timing "#{metric_name}.time", event.duration, tags: tags
       end
     end
-
   end
 end

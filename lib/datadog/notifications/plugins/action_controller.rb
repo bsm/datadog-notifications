@@ -1,16 +1,15 @@
 module Datadog::Notifications::Plugins
   class ActionController < Base
-
     attr_reader :metric_name
 
     # Options:
     #
     # *<tt>:metric_name</tt> - the metric name, defaults to "rails.request"
     # *<tt>:tags</tt> - additional tags
-    def initialize(opts={})
+    def initialize(metric_name: 'rails.request', **opts)
       super
-      @metric_name = opts[:metric_name] || 'rails.request'
 
+      @metric_name = metric_name
       Datadog::Notifications.subscribe 'process_action.action_controller' do |reporter, event|
         record reporter, event
       end
@@ -34,6 +33,5 @@ module Datadog::Notifications::Plugins
         reporter.timing "#{metric_name}.time.view", payload[:view_runtime], tags: tags
       end
     end
-
   end
 end

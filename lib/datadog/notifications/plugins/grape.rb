@@ -1,6 +1,5 @@
 module Datadog::Notifications::Plugins
   class Grape < Base
-
     def self.exception_status(err)
       err.respond_to?(:status) ? err.status : 500
     end
@@ -12,10 +11,11 @@ module Datadog::Notifications::Plugins
     # *<tt>:metric_name</tt> - the metric name, defaults to "grape.request"
     # *<tt>:exception_handler</tt> - a custom exception handler proc which accepts an exception object and returns a status
     # *<tt>:tags</tt> - additional tags
-    def initialize(opts={})
+    def initialize(metric_name: 'grape.request', exception_handler:, **opts)
       super
-      @metric_name = opts[:metric_name] || 'grape.request'
-      @exception_handler = opts[:exception_handler] || ->(e) { self.class.exception_status(e) }
+
+      @metric_name = metric_name
+      @exception_handler = exception_handler || ->(e) { self.class.exception_status(e) }
 
       Datadog::Notifications.subscribe 'endpoint_run.grape' do |reporter, event|
         record reporter, event
@@ -59,6 +59,5 @@ module Datadog::Notifications::Plugins
       path.gsub!(/:(\w+)/) {|m| m[1..-1].upcase }
       path
     end
-
   end
 end
