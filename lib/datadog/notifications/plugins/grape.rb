@@ -1,5 +1,7 @@
 module Datadog::Notifications::Plugins
   class Grape < Base
+    DEFAULT_EXCEPTION_HANDLER = ->(e) { self.class.exception_status(e) }
+
     def self.exception_status(err)
       err.respond_to?(:status) ? err.status : 500
     end
@@ -11,11 +13,11 @@ module Datadog::Notifications::Plugins
     # *<tt>:metric_name</tt> - the metric name, defaults to "grape.request"
     # *<tt>:exception_handler</tt> - a custom exception handler proc which accepts an exception object and returns a status
     # *<tt>:tags</tt> - additional tags
-    def initialize(metric_name: 'grape.request', exception_handler:, **opts)
+    def initialize(metric_name: 'grape.request', exception_handler: DEFAULT_EXCEPTION_HANDLER, **opts)
       super
 
       @metric_name = metric_name
-      @exception_handler = exception_handler || ->(e) { self.class.exception_status(e) }
+      @exception_handler = exception_handler
 
       Datadog::Notifications.subscribe 'endpoint_run.grape' do |reporter, event|
         record reporter, event
@@ -33,7 +35,7 @@ module Datadog::Notifications::Plugins
       status = exception_handler.call(payload[:exception_object]) if payload[:exception_object]
 
       path = extract_path(endpoint)
-      path.gsub!(%r{[^\w\/\-]+}, '_')
+      path.gsub!(%r{[^\w/\-]+}, '_')
 
       tags = self.tags + %W[method:#{method} status:#{status}]
       tags.push "path:#{path}" if path
@@ -54,7 +56,7 @@ module Datadog::Notifications::Plugins
       return endpoint.request.path unless route
 
       path = endpoint.route.path.dup
-      path.sub!(/\(\.\:format\)$/, '')
+      path.sub!(/\(\.:format\)$/, '')
       path.sub!(':version/', '') if endpoint.version
       path.gsub!(/:(\w+)/) {|m| m[1..-1].upcase }
       path

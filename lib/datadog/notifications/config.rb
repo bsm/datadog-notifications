@@ -22,10 +22,10 @@ module Datadog
 
       def connect!
         env = ENV['RAILS_ENV'] || ENV['RACK_ENV']
-        tags.push("env:#{env}")       if env && tags.none? {|t| t =~ /^env\:/ }
+        tags.push("env:#{env}")       if env && tags.none? {|t| t =~ /^env:/ }
 
         enable_hostname = hostname && hostname != 'false'
-        tags.push("host:#{hostname}") if enable_hostname && tags.none? {|t| t =~ /^host\:/ }
+        tags.push("host:#{hostname}") if enable_hostname && tags.none? {|t| t =~ /^host:/ }
 
         reporter.new statsd_host, statsd_port, namespace: namespace, tags: tags, socket_path: socket_path
       end
