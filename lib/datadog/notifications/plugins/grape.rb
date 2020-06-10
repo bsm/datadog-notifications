@@ -1,6 +1,6 @@
 module Datadog::Notifications::Plugins
   class Grape < Base
-    DEFAULT_EXCEPTION_HANDLER = ->(e) { self.class.exception_status(e) }
+    DEFAULT_EXCEPTION_HANDLER = ->(e) { Grape.exception_status(e) }
 
     def self.exception_status(err)
       err.respond_to?(:status) ? err.status : 500
