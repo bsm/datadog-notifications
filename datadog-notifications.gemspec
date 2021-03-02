@@ -14,10 +14,10 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   s.test_files    = s.files.grep(%r{^(spec)/})
   s.require_paths = ['lib']
-  s.required_ruby_version = '>= 2.5'
+  s.required_ruby_version = '>= 2.6'
 
   s.add_runtime_dependency 'activesupport'
-  s.add_runtime_dependency 'dogstatsd-ruby', '>= 4.2', '< 5.0'
+  s.add_runtime_dependency 'dogstatsd-ruby', '>= 4.8', '< 5.0'
 
   s.add_development_dependency 'activerecord'
   s.add_development_dependency 'bundler'
@@ -25,6 +25,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rack-test'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec'
-  s.add_development_dependency 'rubocop'
+  s.add_development_dependency 'rubocop-bsm'
   s.add_development_dependency 'sqlite3'
 end

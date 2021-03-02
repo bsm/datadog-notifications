@@ -49,16 +49,16 @@ module Datadog::Notifications::Plugins
 
     def extract_path(endpoint)
       route = begin
-                endpoint.route
-              rescue NoMethodError
-                nil
-              end
+        endpoint.route
+      rescue NoMethodError
+        nil
+      end
       return endpoint.request.path unless route
 
       path = endpoint.route.path.dup
       path.sub!(/\(\.:format\)$/, '')
       path.sub!(':version/', '') if endpoint.version
-      path.gsub!(/:(\w+)/) {|m| m[1..-1].upcase }
+      path.gsub!(/:(\w+)/) {|m| m[1..].upcase }
       path
     end
   end

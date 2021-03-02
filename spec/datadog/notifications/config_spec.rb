@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Datadog::Notifications::Config do
-  it 'should be connect!' do
+  it 'is connect!' do
     subject.reporter = Mock::Reporter
     subject.hostname = 'test.host'
     subject.tags = ['custom:tag']
@@ -12,7 +12,7 @@ describe Datadog::Notifications::Config do
   end
 
   RSpec.shared_examples 'host tag is not picked up' do |hostname|
-    it 'should not pick up the host tag' do
+    it 'does not pick up the host tag' do
       subject.reporter = Mock::Reporter
       subject.hostname = hostname
       subject.tags = ['custom:tag']
@@ -26,7 +26,7 @@ describe Datadog::Notifications::Config do
   include_examples 'host tag is not picked up', false
   include_examples 'host tag is not picked up', 'false'
 
-  it 'should instantiate plugins on use' do
+  it 'instantiates plugins on use' do
     subject.use Datadog::Notifications::Plugins::ActionController
     expect(subject.plugins.size).to eq(1)
     expect(subject.plugins.first).to be_instance_of(Datadog::Notifications::Plugins::ActionController)

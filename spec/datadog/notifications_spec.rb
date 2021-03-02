@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Datadog::Notifications do
   subject { described_class.instance }
+
   after   { ActiveSupport::Notifications.unsubscribe(subscription) }
 
   let!(:subscription) do
@@ -17,11 +18,11 @@ describe Datadog::Notifications do
     end
   end
 
-  it 'should have a reporter' do
+  it 'has a reporter' do
     expect(subject.send(:reporter)).to be_instance_of(Mock::Reporter)
   end
 
-  it 'should subscribe and report' do
+  it 'subscribes and report' do
     Mock::Instrumentable.new(method: 'GET').perform
     expect(buffered).to eq([
       'web.render:1|c|#custom:tag,env:test,host:test.host,status:200,method:GET',
