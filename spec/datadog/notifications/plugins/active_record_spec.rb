@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Datadog::Notifications::Plugins::ActiveRecord do
-  it 'should send an increment and timing event for each query' do
+  it 'sends an increment and timing event for each query' do
     Post.all.to_a
     expect(buffered).to eq [
       'activerecord.sql:1|c|#custom:tag,env:test,host:test.host,query:post.load',
@@ -9,7 +9,7 @@ describe Datadog::Notifications::Plugins::ActiveRecord do
     ]
   end
 
-  it 'should support custom queries' do
+  it 'supports custom queries' do
     Post.find_by_sql('SELECT * FROM posts LIMIT 1').to_a
     expect(buffered).to eq [
       'activerecord.sql:1|c|#custom:tag,env:test,host:test.host,query:post.load',

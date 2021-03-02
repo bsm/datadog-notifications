@@ -36,7 +36,7 @@ describe Datadog::Notifications::Plugins::Grape do
     end
   end
 
-  it 'should send an increment and timing event for each request' do
+  it 'sends an increment and timing event for each request' do
     get '/echo/1/1234'
     expect(last_response.status).to eq(200)
     expect(last_response.body).to eq('1 1234')
@@ -47,7 +47,7 @@ describe Datadog::Notifications::Plugins::Grape do
     ])
   end
 
-  it 'should support namespaces and versioning' do
+  it 'supports namespaces and versioning' do
     get '/api/v1/sub/versioned.txt'
     expect(last_response.status).to eq(200)
     expect(last_response.body).to eq('OK')
@@ -58,7 +58,7 @@ describe Datadog::Notifications::Plugins::Grape do
     ])
   end
 
-  it 'should support deep nesting' do
+  it 'supports deep nesting' do
     get '/sub/secure/resource'
     expect(last_response.status).to eq(403)
     expect(last_response.body).to eq('forbidden')
@@ -69,7 +69,7 @@ describe Datadog::Notifications::Plugins::Grape do
     ])
   end
 
-  it 'should handle rescued errors' do
+  it 'handles rescued errors' do
     get '/rescued'
     expect(last_response.status).to eq(401)
 
@@ -79,7 +79,7 @@ describe Datadog::Notifications::Plugins::Grape do
     ])
   end
 
-  it 'should handle invalid method' do
+  it 'handles invalid method' do
     post '/rescued'
 
     expect(last_response.status).to eq(405)
@@ -89,7 +89,7 @@ describe Datadog::Notifications::Plugins::Grape do
     ])
   end
 
-  it 'should not report paths on 404s' do
+  it 'does not report paths on 404s' do
     get '/sub/missing'
     expect(last_response.status).to eq(404)
 
