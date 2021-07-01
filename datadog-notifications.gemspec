@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'activesupport'
   s.add_runtime_dependency 'dogstatsd-ruby', '>= 4.8', '< 5.0'
 
+  s.add_development_dependency 'activejob'
   s.add_development_dependency 'activerecord'
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'grape', '>= 1.0.2'

@@ -6,6 +6,7 @@ require 'rspec'
 require 'rack/test'
 require 'grape'
 require 'active_record'
+require 'active_job'
 require 'sqlite3'
 
 ### Active-record test preparation
@@ -16,6 +17,14 @@ ActiveRecord::Base.connection.create_table :posts do |t|
   t.string :title
 end
 class Post < ActiveRecord::Base
+end
+
+### Active-job test preparation
+
+ActiveJob::Base.queue_adapter = :inline
+class NoopJob < ActiveJob::Base
+  self.queue_name = 'test:queue'
+  def perform; end
 end
 
 ### Mocks
@@ -70,6 +79,7 @@ Datadog::Notifications.configure do |c|
   c.tags     = ['custom:tag']
 
   c.use Datadog::Notifications::Plugins::ActiveRecord
+  c.use Datadog::Notifications::Plugins::ActiveJob
   c.use Datadog::Notifications::Plugins::Grape,
         tags: ['more:tags'],
         metric_name: 'api.request',
