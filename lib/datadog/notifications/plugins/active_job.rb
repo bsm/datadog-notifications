@@ -18,9 +18,10 @@ module Datadog::Notifications::Plugins
     private
 
     def record(reporter, event)
-      job  = event.payload[:job]
-      name = job.class.name.sub(/Job$/, '').underscore
-      tags = self.tags + %W[job:#{name} queue:#{job.queue_name}]
+      job   = event.payload[:job]
+      name  = job.class.name.sub(/Job$/, '').underscore
+      queue = job.queue_name.tr(':', '_')
+      tags  = self.tags + %W[job:#{name} queue:#{queue}]
 
       reporter.batch do
         reporter.increment metric_name, tags: tags
