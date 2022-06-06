@@ -12,12 +12,11 @@ Gem::Specification.new do |s|
   s.homepage      = 'https://github.com/bsm/datadog-notifications'
 
   s.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
-  s.test_files    = s.files.grep(%r{^(spec)/})
   s.require_paths = ['lib']
-  s.required_ruby_version = '>= 2.6'
+  s.required_ruby_version = '>= 2.7'
 
   s.add_runtime_dependency 'activesupport'
-  s.add_runtime_dependency 'dogstatsd-ruby', '>= 4.8', '< 5.0'
+  s.add_runtime_dependency 'dogstatsd-ruby', '>= 5.0'
 
   s.add_development_dependency 'activejob'
   s.add_development_dependency 'activerecord'
@@ -28,4 +27,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'rubocop-bsm'
   s.add_development_dependency 'sqlite3'
+  s.metadata['rubygems_mfa_required'] = 'true'
 end
