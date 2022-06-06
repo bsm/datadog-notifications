@@ -41,9 +41,9 @@ describe Datadog::Notifications::Plugins::Grape do
     expect(last_response.status).to eq(200)
     expect(last_response.body).to eq('1 1234')
 
-    expect(buffered).to eq([
+    expect(messages).to eq([
       'api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:200,path:/echo/KEY1/KEY2',
-      'api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:200,path:/echo/KEY1/KEY2',
+      'api.request.time:111.0|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:200,path:/echo/KEY1/KEY2',
     ])
   end
 
@@ -52,9 +52,9 @@ describe Datadog::Notifications::Plugins::Grape do
     expect(last_response.status).to eq(200)
     expect(last_response.body).to eq('OK')
 
-    expect(buffered).to eq([
+    expect(messages).to eq([
       'api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:200,path:/api/sub/versioned,version:v1',
-      'api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:200,path:/api/sub/versioned,version:v1',
+      'api.request.time:111.0|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:200,path:/api/sub/versioned,version:v1',
     ])
   end
 
@@ -63,9 +63,9 @@ describe Datadog::Notifications::Plugins::Grape do
     expect(last_response.status).to eq(403)
     expect(last_response.body).to eq('forbidden')
 
-    expect(buffered).to eq([
+    expect(messages).to eq([
       'api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:403,path:/sub/secure/resource',
-      'api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:403,path:/sub/secure/resource',
+      'api.request.time:111.0|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:403,path:/sub/secure/resource',
     ])
   end
 
@@ -73,9 +73,9 @@ describe Datadog::Notifications::Plugins::Grape do
     get '/rescued'
     expect(last_response.status).to eq(401)
 
-    expect(buffered).to eq([
+    expect(messages).to eq([
       'api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:401,path:/rescued',
-      'api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:401,path:/rescued',
+      'api.request.time:111.0|ms|#custom:tag,env:test,host:test.host,more:tags,method:GET,status:401,path:/rescued',
     ])
   end
 
@@ -83,9 +83,9 @@ describe Datadog::Notifications::Plugins::Grape do
     post '/rescued'
 
     expect(last_response.status).to eq(405)
-    expect(buffered).to eq([
+    expect(messages).to eq([
       'api.request:1|c|#custom:tag,env:test,host:test.host,more:tags,method:POST,status:405,path:/rescued',
-      'api.request.time:333|ms|#custom:tag,env:test,host:test.host,more:tags,method:POST,status:405,path:/rescued',
+      'api.request.time:111.0|ms|#custom:tag,env:test,host:test.host,more:tags,method:POST,status:405,path:/rescued',
     ])
   end
 
@@ -93,6 +93,6 @@ describe Datadog::Notifications::Plugins::Grape do
     get '/sub/missing'
     expect(last_response.status).to eq(404)
 
-    expect(buffered).to eq([])
+    expect(messages).to eq([])
   end
 end

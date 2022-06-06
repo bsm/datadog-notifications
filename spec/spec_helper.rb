@@ -19,63 +19,42 @@ end
 class Post < ActiveRecord::Base
 end
 
-### Active-job test preparation
+### ActiveJob test preparation
 
 ActiveJob::Base.queue_adapter = :inline
-class NoopJob < ActiveJob::Base
-  self.queue_name = 'test:queue'
-  def perform; end
-end
-
-### Mocks
-
-module Mock
-  class Reporter < Datadog::Notifications::Reporter
-    def timing(stat, _millis, **opts)
-      super(stat, 333, **opts)
-    end
-
-    def send_stat(message)
-      messages.push message
-    end
-
-    def messages
-      @messages ||= []
-    end
-  end
-
-  class Instrumentable
-    def initialize(**opts)
-      @opts = opts
-    end
-
-    def perform
-      ActiveSupport::Notifications.instrument('mock.start', @opts)
-      ActiveSupport::Notifications.instrument('mock.perform', @opts) do |payload|
-        payload[:status] = 200
-      end
-    end
-  end
-end
 
 ### Configuration
 
 RSpec.configure do |c|
   helpers = Module.new do
-    def buffered
-      Datadog::Notifications.instance.send(:reporter).messages
+    def messages
+      @messages ||= []
     end
   end
 
   c.include helpers
   c.before do
-    buffered.clear
+    # clear existing messages
+    messages.clear
+
+    # collect messages
+    reporter = Datadog::Notifications.instance.send(:reporter)
+    forwarder = reporter.send(:forwarder)
+    allow(forwarder).to receive(:send_message) do |msg|
+      @messages.push(msg)
+    end
+
+    # stub Time.now
+    allow(Time).to receive(:now).and_return(
+      Time.at(1616161616.161),
+      Time.at(1616161616.272),
+      Time.at(1616161616.948),
+    )
   end
 end
 
 Datadog::Notifications.configure do |c|
   c.hostname = 'test.host'
-  c.reporter = Mock::Reporter
   c.tags     = ['custom:tag']
 
   c.use Datadog::Notifications::Plugins::ActiveRecord

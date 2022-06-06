@@ -19,14 +19,27 @@ describe Datadog::Notifications do
   end
 
   it 'has a reporter' do
-    expect(subject.send(:reporter)).to be_instance_of(Mock::Reporter)
+    expect(subject.send(:reporter)).to be_instance_of(Datadog::Notifications::Reporter)
   end
 
   it 'subscribes and report' do
-    Mock::Instrumentable.new(method: 'GET').perform
-    expect(buffered).to eq([
+    klass = Class.new do
+      def initialize(**opts)
+        @opts = opts
+      end
+
+      def perform
+        ActiveSupport::Notifications.instrument('mock.start', @opts)
+        ActiveSupport::Notifications.instrument('mock.perform', @opts) do |payload|
+          payload[:status] = 200
+        end
+      end
+    end
+    klass.new(method: 'GET').perform
+
+    expect(messages).to eq([
       'web.render:1|c|#custom:tag,env:test,host:test.host,status:200,method:GET',
-      'web.render.time:333|ms|#custom:tag,env:test,host:test.host,status:200,method:GET',
+      'web.render.time:111.0|ms|#custom:tag,env:test,host:test.host,status:200,method:GET',
     ])
   end
 end
