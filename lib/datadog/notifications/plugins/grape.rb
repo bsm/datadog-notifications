@@ -35,7 +35,7 @@ module Datadog::Notifications::Plugins
       status = exception_handler.call(payload[:exception_object]) if payload[:exception_object]
 
       path = extract_path(endpoint)
-      path.gsub!(%r{[^\w/\-]+}, '_')
+      path.gsub!(%r{[^\w/-]+}, '_')
 
       tags = self.tags + %W[method:#{method} status:#{status}]
       tags.push "path:#{path}" if path
