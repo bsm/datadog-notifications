@@ -54,7 +54,7 @@ GEM
     json (2.6.3)
     mini_portile2 (2.8.1)
     minitest (5.18.0)
-    mustermann (1.1.2)
+    mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     mustermann-grape (1.0.2)
       mustermann (>= 1.0.0)
@@ -128,7 +128,7 @@ DEPENDENCIES
   bundler
   datadog-notifications!
   grape (>= 1.0.2)
-  mustermann (< 2)
+  mustermann (>= 3.0)
   rack-test
   rake
   rspec
