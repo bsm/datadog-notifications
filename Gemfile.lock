@@ -125,7 +125,6 @@ PLATFORMS
 DEPENDENCIES
   activejob
   activerecord
-  bundler
   datadog-notifications!
   grape (>= 1.0.2)
   mustermann (>= 3.0)

@@ -3,7 +3,6 @@ gemspec
 
 gem 'activejob'
 gem 'activerecord'
-gem 'bundler'
 gem 'grape', '>= 1.0.2'
 gem 'mustermann', '>= 3.0'
 gem 'rack-test'
