@@ -1,4 +1,12 @@
 source 'https://rubygems.org'
-
 gemspec
-gem 'mustermann', '< 2' # wait for deprecation warning fix
+
+gem 'activejob'
+gem 'activerecord'
+gem 'grape', '>= 1.0.2'
+gem 'mustermann', '>= 3.0'
+gem 'rack-test'
+gem 'rake'
+gem 'rspec'
+gem 'rubocop-bsm'
+gem 'sqlite3'
